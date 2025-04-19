@@ -7,7 +7,6 @@ const virtualSpaceSchema = new mongoose.Schema({
     trim: true,
     minlength: [3, 'Name must be at least 3 characters'],
     maxlength: [100, 'Name cannot exceed 100 characters'],
-    unique: true
   },
   password: {
     type: String,

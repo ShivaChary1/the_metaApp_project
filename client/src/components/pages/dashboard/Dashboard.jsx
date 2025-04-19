@@ -90,7 +90,7 @@ useEffect(() => {
             </div>
           </div>
         </div>
-        <MySpaces spaces={mySpaces} />
+        <MySpaces spaces={mySpaces} currUser={currUser} />
         <JoinedSpaces spaces={joinedSpaces} />
       </main>
       <ProfileModal isOpen={isModalOpen} setIsOpen={setModalOpen} currUser={currUser} />
@@ -99,3 +99,4 @@ useEffect(() => {
 };
 
 export default Dashboard;
+

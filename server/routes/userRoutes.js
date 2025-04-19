@@ -93,7 +93,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-const { mongoStore } = require('../app'); // Import the store
+const { mongoStore } = require('../app'); 
 
 // Test route
 router.get('/', (req, res) => {
@@ -171,19 +171,9 @@ router.get('/logout', (req, res) => {
       console.error("Error destroying session:", err);
       return res.status(500).send("Logout failed");
     }
-
-    try {
-      const client = await mongoStore.clientPromise;
-      const db = client.db(); // optional: specify DB name if needed
-      await db.collection('sessions').deleteOne({ _id: sessionId });
-
-      res.clearCookie('connect.sid');
-      res.send("Logged out and session removed");
-    } catch (err) {
-      console.error("Error removing session from MongoDB:", err);
-      res.status(500).send("Error during session cleanup");
-    }
   });
+
+  res.send("Logged out and session removed");
 });
 
 module.exports = router;

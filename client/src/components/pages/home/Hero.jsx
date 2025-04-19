@@ -25,12 +25,12 @@ const Hero = () => {
           </p>
           <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
             <Link to="/dashboard">
-              <button className="!rounded-button whitespace-nowrap bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-8 shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer">
+              <button className="rounded whitespace-nowrap bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-8 shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer">
                 Create Space
               </button>
             </Link>
             <Link to="/dashboard">
-              <button className="!rounded-button whitespace-nowrap bg-transparent border-2 border-purple-500 text-white font-semibold py-3 px-8 hover:bg-purple-500/10 transition-all duration-300 transform hover:scale-105 cursor-pointer">
+              <button className="rounded whitespace-nowrap bg-transparent border-2 border-purple-500 text-white font-semibold py-3 px-8 hover:bg-purple-500/10 transition-all duration-300 transform hover:scale-105 cursor-pointer">
                 Join Room
               </button>
             </Link>

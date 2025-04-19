@@ -35,7 +35,7 @@ const SpaceCard = ({ title, createdOrJoined, participants, lastActive, iconClass
             </div>
           ))}
         </div>
-        <button className="!rounded-button whitespace-nowrap bg-gray-700 hover:bg-gray-600 text-white text-sm py-2 px-4 transition-all duration-300">
+        <button className="rounded whitespace-nowrap bg-gray-700 hover:bg-gray-600 text-white text-sm py-2 px-4 transition-all duration-300">
           Enter Space
         </button>
       </div>

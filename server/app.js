@@ -42,6 +42,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
+const spaceRoutes = require('./routes/spaceRoutes');
 const cors = require('cors');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
@@ -52,7 +53,12 @@ connectDB();
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors(
+  {
+    origin: process.env.CLIENT_URL || 'http://localhost:5173', // Replace with your client URL
+    credentials: true, // Allow credentials (cookies) to be sent
+  }
+));
 
 // Create MongoStore and export it
 const mongoStore = MongoStore.create({
@@ -72,7 +78,8 @@ app.use(session({
 }));
 
 // Routes
-app.use('/users', userRoutes);
+app.use('/users', userRoutes); //Add user routes
+app.use('/spaces', spaceRoutes); // Add space routes
 
 // Basic route
 app.get('/', (req, res) => res.send('Hello World!'));

@@ -128,12 +128,18 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const ProfileModal = ({ isOpen, setIsOpen, currUser }) => {
-  const [fullName, setFullName] = useState(currUser.name || '');
-  const [email, setEmail] = useState(currUser.email || '');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  if(currUser === null) {
+    currUser = {
+      name: 'x',
+      email: 'x',
+    }
+  }; // Check if currUser is undefined
+  const [fullName, setFullName] = useState(currUser.name || 'x');
+  const [email, setEmail] = useState(currUser.email || 'x');
+  const [password, setPassword] = useState('x');
+  const [confirmPassword, setConfirmPassword] = useState('x');
   const [formStatus, setFormStatus] = useState(null); // 'success' | 'error' | null
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('x');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
