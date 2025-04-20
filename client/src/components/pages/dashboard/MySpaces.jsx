@@ -44,6 +44,7 @@ const MySpaces = ({ spaces, currUser }) => {
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
 
   return (
+    <>
     <section className="mb-8 sm:mb-12">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6">
         <h2 className="text-xl sm:text-2xl font-semibold mb-2 sm:mb-0">My Spaces</h2>
@@ -70,15 +71,17 @@ const MySpaces = ({ spaces, currUser }) => {
             />
           ))
         ) : (
-          <p className="text-gray-400 text-sm sm:text-base">No spaces found matching your search.</p>
+          <p className="text-gray-400 text-sm sm:text-base">No spaces found.</p>
         )}
       </div>
-      <CreateSpaceModal
+      
+    </section>
+    <CreateSpaceModal
         isOpen={isCreateModalOpen}
         setIsOpen={setCreateModalOpen}
         currUser={currUser}
       />
-    </section>
+    </>
   );
 };
 

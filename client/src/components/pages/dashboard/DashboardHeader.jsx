@@ -3,7 +3,7 @@ import axios from 'axios';
 const DashboardHeader = ({ setModalOpen }) => {
   const logout = async ()=>{
     try {
-      await axios.get('http://localhost:5000/users/logout');
+      await axios.get('http://192.168.1.109:5000/users/logout');
       localStorage.removeItem('isAuthenticated'); // Remove user ID from local storage
       localStorage.removeItem('currUser'); // Remove user ID from local storage
       window.location.href = '/login'; // Redirect to login page after logout

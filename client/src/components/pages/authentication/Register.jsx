@@ -45,14 +45,16 @@ const Register = () => {
     setIsLoading(true);
     
     try {
-      const response = await axios.post('http://localhost:5000/users/register', {
+      const response = await axios.post('http://192.168.1.109:5000/users/register', {
         fullName,
         email,
         password
       });
       setFormStatus('success');
+      localStorage.setItem('isAuthenticated','true');
+      localStorage.setItem('currUser',JSON.stringify(response.data))
       setTimeout(() => {
-        navigate('/login');
+        navigate('/dashboard');
       }, 2000);
     } catch (error) {
       setFormStatus('error');
@@ -108,7 +110,7 @@ const Register = () => {
         <div className={`bg-gray-800/80 backdrop-blur-md rounded-xl shadow-lg p-8 transition-all duration-700 delay-300 ease-out ${isAnimated ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
           {formStatus === 'success' && (
             <div className="bg-green-100 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6 animate-fadeIn">
-              Registration successful! Redirecting you to the login page...
+              Registration successful! Redirecting you to the Dashboard...
             </div>
           )}
           

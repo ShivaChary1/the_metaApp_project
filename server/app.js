@@ -53,12 +53,25 @@ connectDB();
 const app = express();
 
 app.use(express.json());
-app.use(cors(
-  {
-    origin: process.env.CLIENT_URL || 'http://localhost:5173', // Replace with your client URL
-    credentials: true, // Allow credentials (cookies) to be sent
-  }
-));
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests from localhost and local network IPs
+    const allowedOrigins = [
+      'http://localhost:5173',
+      'http://127.0.0.1:5173',
+      'http://192.168.1.100:5173', // replace with your machine's local IP
+    ];
+
+    // Allow all local network origins (optional, dev only)
+    if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://192.168.')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
 
 // Create MongoStore and export it
 const mongoStore = MongoStore.create({

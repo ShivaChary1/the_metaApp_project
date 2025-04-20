@@ -70,7 +70,7 @@ const JoinedSpaces = ({ spaces }) => {
             />
           ))
         ) : (
-          <p className="text-gray-400 text-sm sm:text-base">No spaces found matching your search.</p>
+          <p className="text-gray-400 text-sm sm:text-base">No spaces found.</p>
         )}
       </div>
       <JoinSpaceModal
