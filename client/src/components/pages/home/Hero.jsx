@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import heroImg from '../../../assets/hero.png'
 
 const Hero = () => {
   return (
@@ -7,7 +8,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/90 to-transparent z-10"></div>
         <img 
-          src="https://readdy.ai/api/search-image?query=futuristic%20digital%20network%20visualization%20with%20connected%20nodes%20and%20data%20streams%2C%20abstract%20technology%20concept%20with%20blue%20and%20purple%20glowing%20elements%2C%20dark%20background%20with%20gradient%20lighting%2C%20high-tech%20digital%20landscape&width=1440&height=900&seq=hero-bg-1&orientation=landscape" 
+          src={heroImg} 
           alt="Digital network visualization" 
           className="w-full h-full object-cover object-top"
         />
