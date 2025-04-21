@@ -1,0 +1,30 @@
+.avatar-up {
+  transform: translateY(-5px);
+}
+.avatar-down {
+  transform: translateY(5px);
+}
+.avatar-left {
+  transform: translateX(-5px);
+}
+.avatar-right {
+  transform: translateX(5px);
+}
+.avatar-moving {
+  animation: pulse 0.5s infinite alternate;
+}
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.05);
+  }
+}
+.toggle-checkbox:checked {
+  right: 0;
+  border-color: #4F46E5;
+}
+.toggle-checkbox:checked + .toggle-label {
+  background-color: #4F46E5;
+}

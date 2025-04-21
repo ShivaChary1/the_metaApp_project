@@ -1,9 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 const DashboardHeader = ({ setModalOpen }) => {
+  const baseURL = import.meta.env.VITE_BACKEND_URL;;  
   const logout = async ()=>{
     try {
-      await axios.get('http://192.168.1.109:5000/users/logout');
+      await axios.get(`${baseURL}/users/logout`, { withCredentials: true });
       localStorage.removeItem('isAuthenticated'); // Remove user ID from local storage
       localStorage.removeItem('currUser'); // Remove user ID from local storage
       window.location.href = '/login'; // Redirect to login page after logout

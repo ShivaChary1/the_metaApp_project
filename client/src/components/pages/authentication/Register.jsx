@@ -16,6 +16,7 @@ const Register = () => {
   const [isAnimated, setIsAnimated] = useState(false);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const navigate = useNavigate();
+  const baseURL = import.meta.env.VITE_BACKEND_URL;;  
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
@@ -45,7 +46,7 @@ const Register = () => {
     setIsLoading(true);
     
     try {
-      const response = await axios.post('http://192.168.1.109:5000/users/register', {
+      const response = await axios.post(`${baseURL}/users/register`, {
         fullName,
         email,
         password

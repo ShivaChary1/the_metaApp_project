@@ -205,6 +205,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const baseURL = import.meta.env.VITE_BACKEND_URL;;  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -229,7 +230,7 @@ const Login = () => {
     setFormStatus(null);
 
     try {
-      const response = await axios.post('http://192.168.1.109:5000/users/login', {
+      const response = await axios.post(`${baseURL}/users/login`, {
         email,
         password
       }, { withCredentials: true });
