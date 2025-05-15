@@ -344,6 +344,9 @@ const JoinSpaceModal = ({ isOpen, setIsOpen, onSpaceJoined }) => {
         userId: currUser.userId,
       };
       const response = await axios.post(`${baseURL}/spaces/join`, joinData, {
+        headers:{
+          Authorization : `Bearer ${localStorage.getItem('token')}`
+        },
         withCredentials: true,
       });
 

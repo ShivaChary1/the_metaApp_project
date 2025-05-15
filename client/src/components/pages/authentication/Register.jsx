@@ -19,8 +19,8 @@ const Register = () => {
   const baseURL = import.meta.env.VITE_BACKEND_URL;;  
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
-    if (isAuthenticated) {
+    const token = localStorage.getItem("token");
+    if (token) {
       navigate("/dashboard");
     }
     setTimeout(() => {
@@ -52,8 +52,8 @@ const Register = () => {
         password
       });
       setFormStatus('success');
-      localStorage.setItem('isAuthenticated','true');
-      localStorage.setItem('currUser',JSON.stringify(response.data))
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('currUser',JSON.stringify(response.data.user))
       setTimeout(() => {
         navigate('/dashboard');
       }, 2000);

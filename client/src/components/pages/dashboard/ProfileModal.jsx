@@ -226,7 +226,9 @@ const ProfileModal = ({ isOpen, setIsOpen, currUser = { name: '', email: '' } })
       if (password) updateData.password = password;
 
       const response = await axios.put(`${baseURL}/users/update`, updateData, {
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
       });
 
       localStorage.setItem('currUser', JSON.stringify({ ...currUser, name: fullName }));
@@ -296,7 +298,7 @@ const ProfileModal = ({ isOpen, setIsOpen, currUser = { name: '', email: '' } })
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               className="peer w-full px-4 py-3 text-white border-b-2 border-gray-600 focus:border-blue-500 outline-none bg-transparent"
-              placeholder="Enter full name"
+              placeholder=""
               required
               aria-required="true"
               aria-label="Full Name"
@@ -316,7 +318,7 @@ const ProfileModal = ({ isOpen, setIsOpen, currUser = { name: '', email: '' } })
               value={email}
               readOnly
               className="peer w-full px-4 py-3 text-gray-400 border-b-2 border-gray-600 bg-transparent cursor-not-allowed outline-none"
-              placeholder="Enter email"
+              placeholder=""
               aria-label="Email (read-only)"
             />
             <label
@@ -334,7 +336,7 @@ const ProfileModal = ({ isOpen, setIsOpen, currUser = { name: '', email: '' } })
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="peer w-full px-4 py-3 text-white border-b-2 border-gray-600 focus:border-blue-500 outline-none bg-transparent"
-              placeholder="Enter new password"
+              placeholder=""
               aria-label="New Password (optional)"
             />
             <label
@@ -352,7 +354,7 @@ const ProfileModal = ({ isOpen, setIsOpen, currUser = { name: '', email: '' } })
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="peer w-full px-4 py-3 text-white border-b-2 border-gray-600 focus:border-blue-500 outline-none bg-transparent"
-              placeholder="Confirm new password"
+              placeholder=""
               aria-label="Confirm Password"
             />
             <label

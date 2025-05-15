@@ -339,7 +339,9 @@ const CreateSpaceModal = ({ isOpen, setIsOpen, currUser, onSpaceCreated }) => {
       };
 
       const response = await axios.post(`${baseURL}/spaces/create`, createData, {
-        withCredentials: true,
+       headers: {
+        'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+       }
       });
 
       if (response.status === 201) {

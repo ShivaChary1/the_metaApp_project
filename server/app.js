@@ -2,68 +2,53 @@
 // const dotenv = require('dotenv');
 // const connectDB = require('./config/db');
 // const userRoutes = require('./routes/userRoutes');
-// const cors = require('cors');
-// const session = require('express-session');
-// const MongoStore = require('connect-mongo');
-
-// dotenv.config(); // Load environment variables first
-
-// connectDB(); // Connect to MongoDB
-
-// const app = express();
-// app.use(express.json()); // To parse JSON requests
-// app.use(cors()); // Enable CORS for all routes
-// app.use(session({
-//   secret: process.env.SESSION_SECRET || 'themetaappsession',
-//   resave: false,
-//   saveUninitialized: false,
-//   store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
-//   cookie: {
-//     maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-//     httpOnly: true
-//   }
-// }));
-
-// // Routes
-// app.use('/users', userRoutes);
-
-// // Basic route
-// app.get('/', (req, res) => res.send('Hello World!'));
-
-
-// // Start server
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
-
-
-// const express = require('express');
-// const dotenv = require('dotenv');
-// const connectDB = require('./config/db');
-// const userRoutes = require('./routes/userRoutes');
 // const spaceRoutes = require('./routes/spaceRoutes');
 // const cors = require('cors');
-// const session = require('express-session');
-// const MongoStore = require('connect-mongo');
+// const { Server } = require('socket.io');
+// const http = require('http');
+// const VirtualSpace = require('./models/VirtualSpace');
+// const ActiveUser = require('./models/ActiveUser');
+// const jwt = require('jsonwebtoken');
+// const chatRoutes = require('./routes/chatRoutes');
 
 // dotenv.config();
 // connectDB();
 
 // const app = express();
+// const server = http.createServer(app);
 
+// // Socket.IO setup with JWT auth
+// const io = new Server(server, {
+//   cors: {
+//     origin: function (origin, callback) {
+//       const allowedOrigins = [
+//         'http://localhost:5173',
+//         'http://127.0.0.1:5173',
+//         'http://192.168.1.6:5173',
+//         'http://192.168.1.5:5173',
+//       ];
+//       if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://192.168.')) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error('Not allowed by CORS'));
+//       }
+//     },
+//     credentials: true,
+//     methods: ['GET', 'POST'],
+//   }
+// });
+
+// // Middleware
 // app.use(express.json());
-// app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+// app.use(express.urlencoded({ extended: true }));
 // app.use(cors({
 //   origin: function (origin, callback) {
-//     // Allow requests from localhost and local network IPs
 //     const allowedOrigins = [
 //       'http://localhost:5173',
 //       'http://127.0.0.1:5173',
-//       'http://192.168.1.100:5173', // replace with your machine's local IP
+//       'http://192.168.1.108:5173',
+//       'http://192.168.1.5:5173',
 //     ];
-
-//     // Allow all local network origins (optional, dev only)
 //     if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://192.168.')) {
 //       callback(null, true);
 //     } else {
@@ -73,38 +58,73 @@
 //   credentials: true,
 // }));
 
-// // Create MongoStore and export it
-// const mongoStore = MongoStore.create({
-//   mongoUrl: process.env.MONGO_URI,
-//   collectionName: 'sessions'
+// // Socket.IO JWT authentication
+// io.use((socket, next) => {
+//   const token = socket.handshake.auth.token;
+//   console.log('Socket token:', token);
+//   if (!token) return next(new Error("Authentication error"));
+
+//   try {
+//     const user = jwt.verify(token, process.env.JWT_SECRET || 'thetopsecret');
+//     socket.user = user; 
+//     // console.log('Authenticated user:', socket.user);
+//     next();
+//   } catch (err) {
+//     console.log('JWT verification error:', err);
+//     next(new Error("Invalid token"));
+//   }
 // });
 
-// app.use(session({
-//   secret: process.env.SESSION_SECRET || 'themetaappsession',
-//   resave: false,
-//   saveUninitialized: false,
-//   store: mongoStore,
-//   cookie: {
-//     maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-//     httpOnly: true
-//   }
-// }));
+// io.on("connect", (socket) => {
+//   console.log('A user connected:', socket.id, 'User:', socket.user?._id || 'Unknown');
+
+//   socket.on("enteredSpace", ({ spaceId }) => {
+//     socket.join(spaceId);
+//     console.log(`User ${socket.id} joined space ${spaceId}`);
+//   });
+
+//   socket.on("positionUpdate", (newPos) => {
+//     console.log(`User ${socket.id} updated position to ${newPos.x}, ${newPos.y} in space ${newPos.spaceId}`);
+    
+//     socket.emit("returnPosition", newPos);
+//   });
+
+//   socket.on("leaveSpace", ({ spaceId }) => {
+//     socket.leave(spaceId);
+//     console.log(`User ${socket.id} left space ${spaceId}`);
+
+//     socket.emit("leftSpace", spaceId);
+//   });
+
+//   socket.on("message-sent", ({ message, spaceId, userId, fullName }) => {
+//   // console.log(`Message sent in space ${spaceId}:`, message);
+//   socket.to(spaceId).emit("message-received", {
+//     message,
+//     userId,
+//     fullName,
+//   });
+// });
+
+//   socket.on("disconnect", () => {
+//     console.log('User disconnected:', socket.id);
+//   });
+// });
 
 // // Routes
-// app.use('/users', userRoutes); //Add user routes
-// app.use('/spaces', spaceRoutes); // Add space routes
+// app.use('/users', userRoutes);
+// app.use('/spaces',spaceRoutes);
+// app.use('/chats',chatRoutes)
 
-// // Basic route
 // app.get('/', (req, res) => res.send('Hello World!'));
 
+// // Server start
 // const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => {
+// server.listen(PORT, () => {
 //   console.log(`Server is running on port ${PORT}`);
 // });
 
-// // Export the app and mongoStore so routes can use them
-// module.exports = { app, mongoStore };
-
+// // Export if needed elsewhere
+// module.exports = { app, io };
 
 
 
@@ -114,29 +134,39 @@ const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 const spaceRoutes = require('./routes/spaceRoutes');
 const cors = require('cors');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
 const { Server } = require('socket.io');
 const http = require('http');
 const VirtualSpace = require('./models/VirtualSpace');
-const mongoose = require('mongoose');
+const ActiveUser = require('./models/ActiveUser');
+const User = require('./models/User');
+const Chat = require('./models/Chat'); // Add Chat model
+const jwt = require('jsonwebtoken');
+const chatRoutes = require('./routes/chatRoutes');
 
 dotenv.config();
 connectDB();
 
 const app = express();
 const server = http.createServer(app);
+
 const io = new Server(server, {
   cors: {
-    origin: [
-      'http://localhost:5173',
-      'http://127.0.0.1:5173',
-      'http://192.168.1.108:5173',
-      'http://192.168.1.100:5173',
-    ],
-    methods: ['GET', 'POST'],
+    origin: function (origin, callback) {
+      const allowedOrigins = [
+        'http://localhost:5173',
+        'http://127.0.0.1:5173',
+        'http://192.168.1.6:5173',
+        'http://192.168.1.5:5173',
+      ];
+      if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://192.168.')) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
-  },
+    methods: ['GET', 'POST'],
+  }
 });
 
 app.use(express.json());
@@ -147,7 +177,7 @@ app.use(cors({
       'http://localhost:5173',
       'http://127.0.0.1:5173',
       'http://192.168.1.108:5173',
-      'http://192.168.1.100:5173',
+      'http://192.168.1.5:5173',
     ];
     if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://192.168.')) {
       callback(null, true);
@@ -158,118 +188,79 @@ app.use(cors({
   credentials: true,
 }));
 
-const mongoStore = MongoStore.create({
-  mongoUrl: process.env.MONGO_URI,
-  collectionName: 'sessions',
-});
-
-const sessionMiddleware = session({
-  secret: process.env.SESSION_SECRET || 'themetaappsession',
-  resave: false,
-  saveUninitialized: false,
-  store: mongoStore,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 7,
-    httpOnly: true,
-    sameSite: 'lax',
-  },
-});
-
-app.use(sessionMiddleware);
-
 io.use((socket, next) => {
-  sessionMiddleware(socket.request, {}, (err) => {
-    if (err) {
-      console.error('Session middleware error:', err);
-      return next(err);
-    }
-    console.log('Socket session:', socket.request.session);
-    if (!socket.request.session.userId) {
-      console.error('No userId in session for socket:', socket.id);
-      return next(new Error('Unauthorized'));
-    }
+  const token = socket.handshake.auth.token;
+  console.log('Socket token:', token);
+  if (!token) return next(new Error("Authentication error"));
+
+  try {
+    const user = jwt.verify(token, process.env.JWT_SECRET || 'thetopsecret');
+    socket.user = user;
     next();
-  });
+  } catch (err) {
+    console.log('JWT verification error:', err);
+    next(new Error("Invalid token"));
+  }
 });
 
-io.on('connection', (socket) => {
-  console.log('Client connected:', socket.id);
-  const userId = socket.request.session.userId;
-  console.log('Authenticated user:', userId);
+io.on("connect", (socket) => {
+  console.log('A user connected:', socket.id, 'User:', socket.user?._id || 'Unknown');
 
-  socket.on('joinSpace', async ({ spaceId, userId: clientUserId }) => {
-    if (!spaceId || clientUserId !== userId) {
-      console.error('Invalid joinSpace attempt:', { spaceId, clientUserId, userId });
-      return;
-    }
+  socket.on("enteredSpace", ({ spaceId }) => {
+    socket.join(spaceId);
+    console.log(`User ${socket.user?._id || socket.id} joined space ${spaceId}`);
+  });
+
+  socket.on("positionUpdate", (newPos) => {
+    console.log(`User ${socket.id} updated position to ${newPos.x}, ${newPos.y} in space ${newPos.spaceId}`);
+    socket.emit("returnPosition", newPos);
+  });
+
+  socket.on("leaveSpace", ({ spaceId }) => {
+    socket.leave(spaceId);
+    console.log(`User ${socket.id} left space ${spaceId}`);
+    socket.emit("leftSpace", spaceId);
+  });
+
+  socket.on("message-sent", async ({ message, spaceId, userId, fullName }) => {
     try {
-      const space = await VirtualSpace.findById(spaceId);
-      if (!space) {
-        console.error('Space not found:', spaceId);
-        return;
+      const user = await User.findById(userId).select('fullName');
+      const userFullName = user ? user.fullName : fullName || 'Unknown User';
+      
+      // Save message to database
+      let chat = await Chat.findOne({ spaceId });
+      if (!chat) {
+        chat = new Chat({ spaceId, chats: [] });
       }
-      const userExists = space.currentUsers.some(u => u.user.toString() === userId);
-      if (!userExists) {
-        console.error('User not in space:', { spaceId, userId });
-        return;
-      }
-      socket.join(spaceId);
-      console.log(`User ${userId} joined space ${spaceId}`);
-      io.in(spaceId).allSockets().then(sockets => {
-        console.log(`Sockets in room ${spaceId}:`, Array.from(sockets));
+      chat.chats.push({
+        message,
+        user: { _id: userId, fullName: userFullName }
+      });
+      await chat.save();
+      
+      io.to(spaceId).emit("message-received", {
+        message,
+        userId,
+        fullName: userFullName,
       });
     } catch (err) {
-      console.error('Error joining space:', err);
+      console.error('Error processing message:', err);
+      io.to(spaceId).emit("message-received", {
+        message,
+        userId,
+        fullName: fullName || 'Unknown User',
+      });
     }
   });
 
-  socket.on('updatePosition', async ({ spaceId, userId: clientUserId, position }) => {
-    try {
-      console.log('Received updatePosition:', { spaceId, clientUserId, position });
-
-      if (!spaceId || clientUserId !== userId || !position || typeof position.x !== 'number' || typeof position.y !== 'number') {
-        console.error('Invalid position update data:', { spaceId, clientUserId, position });
-        return;
-      }
-      if (position.x < 0 || position.y < 0) {
-        console.error('Position coordinates must be non-negative:', position);
-        return;
-      }
-
-      const space = await VirtualSpace.findById(spaceId);
-      if (!space) {
-        console.error('Space not found:', spaceId);
-        return;
-      }
-      const userEntry = space.currentUsers.find(u => u.user.toString() === userId);
-      if (!userEntry) {
-        console.error('User not in space:', { spaceId, userId });
-        return;
-      }
-      userEntry.position = position;
-      await space.save({ runValidators: true });
-
-      console.log('Database updated:', { spaceId, userId, position });
-
-      socket.to(spaceId).emit('positionUpdated', { userId, position });
-      console.log(`Broadcasted position update to space ${spaceId}:`, { userId, position });
-    } catch (err) {
-      console.error('Error updating position:', err);
-      if (err.name === 'ValidationError') {
-        console.error('Validation error:', err.message);
-      }
-    }
-  });
-
-  socket.on('disconnect', () => {
-    console.log('Client disconnected:', socket.id);
+  socket.on("disconnect", () => {
+    console.log('User disconnected:', socket.id);
   });
 });
-
-app.set('io', io);
 
 app.use('/users', userRoutes);
 app.use('/spaces', spaceRoutes);
+app.use('/chats', chatRoutes);
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
@@ -278,4 +269,4 @@ server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-module.exports = { app, mongoStore, io };
+module.exports = { app, io };

@@ -221,8 +221,9 @@ const Dashboard = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(`${baseURL}/spaces/allspaces`, {
-        params: { userId: currUser.userId },
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`, 
+        }
       });
       setAllSpaces(response.data);
       setError(null);
@@ -241,14 +242,14 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-    if (!isAuthenticated || !currUser) {
+    const token = localStorage.getItem('token');
+    if (!token || !currUser) {
       navigate('/login');
       return;
     }
 
     fetchSpaces();
-  }, [navigate, currUser?.userId]);
+  }, []);
 
   const filteredSpaces = allSpaces.filter((space) =>
     space.title?.toLowerCase().includes(searchQuery.toLowerCase())
