@@ -33,7 +33,7 @@ const App = () => {
         <Route path='/login' element={ <Login/>}/>
         <Route path='/register' element={ <Register/>}/>
         <Route path='/dashboard' element={ <ProtectedRoute> <Dashboard/> </ProtectedRoute>}/>
-        <Route path='/dashboard/open/:spaceId' element={ <ProtectedRoute> <Spaceboard/> </ProtectedRoute> } />
+        <Route path='/dashboard/open/:spaceId' element={  <Spaceboard/> } />
         {/* <Route path='/open' element={  }/> */}
       </Routes>
 
