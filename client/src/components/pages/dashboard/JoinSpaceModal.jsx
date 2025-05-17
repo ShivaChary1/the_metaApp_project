@@ -387,7 +387,7 @@ const JoinSpaceModal = ({ isOpen, setIsOpen, onSpaceJoined }) => {
             className="text-gray-400 hover:text-white text-lg sm:text-xl"
             aria-label="Close modal"
           >
-            <i className="fas fa-times" aria-hidden="true"></i>
+            <i className="fas cursor-pointer fa-times" aria-hidden="true"></i>
           </button>
         </div>
 
@@ -455,7 +455,7 @@ const JoinSpaceModal = ({ isOpen, setIsOpen, onSpaceJoined }) => {
 
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 px-4 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg disabled:opacity-50"
+            className="w-full cursor-pointer bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 px-4 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg disabled:opacity-50"
             disabled={isSubmitting}
             aria-busy={isSubmitting}
           >

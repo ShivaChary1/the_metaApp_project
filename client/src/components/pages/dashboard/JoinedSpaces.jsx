@@ -58,7 +58,7 @@ const JoinedSpaces = ({ spaces, onSpaceJoined }) => {
         <h2 className="text-xl sm:text-2xl font-semibold mb-2 sm:mb-0">Joined Spaces</h2>
         <button
           onClick={() => setJoinModalOpen(true)}
-          className="rounded whitespace-nowrap bg-transparent border border-purple-500 text-white font-semibold py-1.5 sm:py-2 px-4 sm:px-6 text-sm sm:text-base hover:bg-purple-500/10 transition-all duration-300"
+          className="rounded cursor-pointer whitespace-nowrap bg-transparent border border-purple-500 text-white font-semibold py-1.5 sm:py-2 px-4 sm:px-6 text-sm sm:text-base hover:bg-purple-500/10 transition-all duration-300"
         >
           <i className="fas fa-sign-in-alt mr-1 sm:mr-2"></i>
           Join Space

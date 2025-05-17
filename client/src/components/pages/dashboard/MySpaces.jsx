@@ -65,7 +65,7 @@ const MySpaces = ({ spaces, currUser, onSpaceCreated }) => {
           <h2 className="text-xl sm:text-2xl font-semibold mb-2 sm:mb-0">My Spaces</h2>
           <button
             onClick={() => setCreateModalOpen(true)}
-            className="rounded whitespace-nowrap bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-1.5 sm:py-2 px-4 sm:px-6 text-sm sm:text-base transition-all duration-300"
+            className="rounded cursor-pointer whitespace-nowrap bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-1.5 sm:py-2 px-4 sm:px-6 text-sm sm:text-base transition-all duration-300"
           >
             <i className="fas fa-plus mr-1 sm:mr-2"></i>
             Create New Space

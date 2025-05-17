@@ -273,14 +273,46 @@ exports.getSpace = async (req, res) => {
       return res.status(400).json({ message: 'Space ID is required' });
     }
 
-    const space = await VirtualSpace.findById(id).populate('currentUsers.user', 'fullName');
+    const space = await VirtualSpace.findById(id).populate('currentUsers.user');
     if (!space) {
       return res.status(404).json({ message: 'Space not found' });
     }
-
+    // console.log(space.currentUsers);
     return res.status(200).json(space);
   } catch (err) {
     console.error('Error fetching space:', err);
     return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+exports.updateSpace = async (req, res) => {
+  const { spaceId, userId, position } = req.body;
+
+  if (!spaceId || !userId || !position) {
+    return res.status(400).json({ error: 'Missing required fields.' });
+  }
+
+  try {
+    const space = await VirtualSpace.findById(spaceId);
+    if (!space) {
+      return res.status(404).json({ error: 'Space not found.' });
+    }
+
+    const userEntry = space.currentUsers.find(
+      (entry) => entry.user.toString() === userId
+    );
+
+    if (userEntry) {
+      userEntry.position = position;
+    } else {
+      // optionally add user if not found
+      space.currentUsers.push({ user: userId, position });
+    }
+
+    await space.save();
+    return res.status(200).json({ message: 'Position updated successfully.' });
+  } catch (err) {
+    console.error('Error updating user position:', err);
+    return res.status(500).json({ error: 'Server error' });
   }
 };

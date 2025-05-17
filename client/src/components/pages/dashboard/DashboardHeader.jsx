@@ -34,7 +34,7 @@ const DashboardHeader = ({ setModalOpen }) => {
 
           
           <button onClick={logout} className='cursor-pointer text-md text-gray-400 hover:text-white transition-all duration-300'>
-            logout <i className="fas fa-sign-out-alt"></i>
+            Logout <i className="fas fa-sign-out-alt"></i>
           </button>
         </div>
       </div>

@@ -8,6 +8,8 @@
 // const http = require('http');
 // const VirtualSpace = require('./models/VirtualSpace');
 // const ActiveUser = require('./models/ActiveUser');
+// const User = require('./models/User');
+// const Chat = require('./models/Chat');
 // const jwt = require('jsonwebtoken');
 // const chatRoutes = require('./routes/chatRoutes');
 
@@ -17,7 +19,6 @@
 // const app = express();
 // const server = http.createServer(app);
 
-// // Socket.IO setup with JWT auth
 // const io = new Server(server, {
 //   cors: {
 //     origin: function (origin, callback) {
@@ -38,7 +39,6 @@
 //   }
 // });
 
-// // Middleware
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
 // app.use(cors({
@@ -58,16 +58,13 @@
 //   credentials: true,
 // }));
 
-// // Socket.IO JWT authentication
 // io.use((socket, next) => {
 //   const token = socket.handshake.auth.token;
-//   console.log('Socket token:', token);
 //   if (!token) return next(new Error("Authentication error"));
 
 //   try {
 //     const user = jwt.verify(token, process.env.JWT_SECRET || 'thetopsecret');
-//     socket.user = user; 
-//     // console.log('Authenticated user:', socket.user);
+//     socket.user = user;
 //     next();
 //   } catch (err) {
 //     console.log('JWT verification error:', err);
@@ -78,52 +75,80 @@
 // io.on("connect", (socket) => {
 //   console.log('A user connected:', socket.id, 'User:', socket.user?._id || 'Unknown');
 
-//   socket.on("enteredSpace", ({ spaceId }) => {
+//   socket.on("enteredSpace", async ({ spaceId }) => {
 //     socket.join(spaceId);
-//     console.log(`User ${socket.id} joined space ${spaceId}`);
+//     console.log(`User ${socket.user?._id || socket.id} joined space ${spaceId}`);
 //   });
 
-//   socket.on("positionUpdate", (newPos) => {
-//     console.log(`User ${socket.id} updated position to ${newPos.x}, ${newPos.y} in space ${newPos.spaceId}`);
-    
-//     socket.emit("returnPosition", newPos);
+//   socket.on("positionUpdate", async (newPos) => {
+//     // Update position in database
+//     try {
+//       await VirtualSpace.updateOne(
+//         { _id: newPos.spaceId, 'currentUsers.user': newPos.userId },
+//         { $set: { 'currentUsers.$.position': { x: newPos.x, y: newPos.y } } }
+//       );
+//       // Broadcast updated positions to all users in the space
+//       const space = await VirtualSpace.findById(newPos.spaceId).populate('currentUsers.user');
+
+//       io.to(newPos.spaceId).emit('usersUpdate', space.currentUsers);
+//     } catch (err) {
+//       console.error('Error updating position:', err);
+//     }
 //   });
 
-//   socket.on("leaveSpace", ({ spaceId }) => {
+//     socket.on("leaveSpace", ({ spaceId }) => {
 //     socket.leave(spaceId);
 //     console.log(`User ${socket.id} left space ${spaceId}`);
-
 //     socket.emit("leftSpace", spaceId);
 //   });
 
-//   socket.on("message-sent", ({ message, spaceId, userId, fullName }) => {
-//   // console.log(`Message sent in space ${spaceId}:`, message);
-//   socket.to(spaceId).emit("message-received", {
-//     message,
-//     userId,
-//     fullName,
+//   socket.on("message-sent", async ({ message, spaceId, userId, fullName }) => {
+//     try {
+//       const user = await User.findById(userId).select('fullName');
+//       const userFullName = user ? user.fullName : fullName || 'Unknown User';
+      
+//       // Save message to database
+//       let chat = await Chat.findOne({ spaceId });
+//       if (!chat) {
+//         chat = new Chat({ spaceId, chats: [] });
+//       }
+//       chat.chats.push({
+//         message,
+//         user: { _id: userId, fullName: userFullName }
+//       });
+//       await chat.save();
+      
+//       io.to(spaceId).emit("message-received", {
+//         message,
+//         userId,
+//         fullName: userFullName,
+//       });
+//     } catch (err) {
+//       console.error('Error processing message:', err);
+//       io.to(spaceId).emit("message-received", {
+//         message,
+//         userId,
+//         fullName: fullName || 'Unknown User',
+//       });
+//     }
 //   });
-// });
 
 //   socket.on("disconnect", () => {
 //     console.log('User disconnected:', socket.id);
 //   });
 // });
 
-// // Routes
 // app.use('/users', userRoutes);
-// app.use('/spaces',spaceRoutes);
-// app.use('/chats',chatRoutes)
+// app.use('/spaces', spaceRoutes);
+// app.use('/chats', chatRoutes);
 
 // app.get('/', (req, res) => res.send('Hello World!'));
 
-// // Server start
 // const PORT = process.env.PORT || 5000;
 // server.listen(PORT, () => {
 //   console.log(`Server is running on port ${PORT}`);
 // });
 
-// // Export if needed elsewhere
 // module.exports = { app, io };
 
 
@@ -139,7 +164,7 @@ const http = require('http');
 const VirtualSpace = require('./models/VirtualSpace');
 const ActiveUser = require('./models/ActiveUser');
 const User = require('./models/User');
-const Chat = require('./models/Chat'); // Add Chat model
+const Chat = require('./models/Chat');
 const jwt = require('jsonwebtoken');
 const chatRoutes = require('./routes/chatRoutes');
 
@@ -190,7 +215,6 @@ app.use(cors({
 
 io.use((socket, next) => {
   const token = socket.handshake.auth.token;
-  console.log('Socket token:', token);
   if (!token) return next(new Error("Authentication error"));
 
   try {
@@ -206,15 +230,14 @@ io.use((socket, next) => {
 io.on("connect", (socket) => {
   console.log('A user connected:', socket.id, 'User:', socket.user?._id || 'Unknown');
 
-  socket.on("enteredSpace", ({ spaceId }) => {
+  socket.on("enteredSpace", async ({ spaceId }) => {
     socket.join(spaceId);
     console.log(`User ${socket.user?._id || socket.id} joined space ${spaceId}`);
   });
 
-  socket.on("positionUpdate", (newPos) => {
-    console.log(`User ${socket.id} updated position to ${newPos.x}, ${newPos.y} in space ${newPos.spaceId}`);
-    socket.emit("returnPosition", newPos);
-  });
+  socket.on("move-avatar", ({ spaceId, userId, position })=>{
+    socket.to(spaceId).emit('avatar-moved', { userId, position });
+  })
 
   socket.on("leaveSpace", ({ spaceId }) => {
     socket.leave(spaceId);
