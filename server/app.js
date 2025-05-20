@@ -177,7 +177,9 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: function (origin, callback) {
+          conolse.log(origin);
       const allowedOrigins = [
+            '*',
         'https://metaconnect.onrender.com'
       ];
       if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://192.168.')) {
@@ -186,7 +188,7 @@ const io = new Server(server, {
         callback(new Error('Not allowed by CORS'));
       }
     },
-    credentials: true,
+    
     methods: ['GET', 'POST'],
   }
 });
