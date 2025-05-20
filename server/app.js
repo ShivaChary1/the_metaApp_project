@@ -197,7 +197,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
   origin: function (origin, callback) {
-    const allowedOrigins = ['*'
+    const allowedOrigins = ['*','https://metaconnect.onrender.com'
     ];
     if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://192.168.')) {
       callback(null, true);
@@ -205,7 +205,6 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true,
 }));
 
 io.use((socket, next) => {
