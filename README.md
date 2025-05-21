@@ -87,3 +87,7 @@ See the [LICENSE](./LICENSE) file for more information.
 ---
 
 ⭐ _If you found this project interesting or helpful, consider giving it a star and contributing!_
+
+---
+
+-built with ❤️ by [Shiva Chary](https://www.linkedin.com/in/shiva-chary-guddoju-867b93290/)
