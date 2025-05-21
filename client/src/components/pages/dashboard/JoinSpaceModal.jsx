@@ -122,7 +122,7 @@ const JoinSpaceModal = ({ isOpen, setIsOpen, onSpaceJoined }) => {
             />
             <label
               htmlFor="spaceId"
-              className="absolute left-4 top-3 text-gray-400 transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-500"
+              className="absolute left-4 top-3  text-white transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-500"
             >
               Space ID
             </label>
@@ -143,7 +143,7 @@ const JoinSpaceModal = ({ isOpen, setIsOpen, onSpaceJoined }) => {
             />
             <label
               htmlFor="spacePassword"
-              className="absolute left-4 top-3 text-gray-400 transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-500"
+              className="absolute left-4 top-3  text-white transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-500"
             >
               Password (optional)
             </label>
