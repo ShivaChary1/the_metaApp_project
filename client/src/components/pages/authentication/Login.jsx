@@ -123,7 +123,7 @@ const Login = () => {
                 />
                 <label
                   htmlFor="email"
-                  className="absolute left-4 top-3 text-gray-400 transition-all duration-300 
+                  className="absolute left-4 top-3 text-white transition-all duration-300 
                   transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 
                   peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-500"
                 >
@@ -148,7 +148,7 @@ const Login = () => {
                 />
                 <label
                   htmlFor="password"
-                  className="absolute left-4 top-3 text-gray-400 transition-all duration-300 
+                  className="absolute left-4 top-3 text-white transition-all duration-300 
                   transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 
                   peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-500"
                 >
