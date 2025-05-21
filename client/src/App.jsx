@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { HashRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Home from './components/pages//home/Home'
 import Login from './components/pages/authentication/Login'
 import Register from './components/pages/authentication/Register'
@@ -27,7 +27,7 @@ const App = () => {
 
 
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Routes>
         <Route path='/' element={  <Home/> } />
         <Route path='/login' element={ <Login/>}/>
@@ -37,7 +37,7 @@ const App = () => {
         {/* <Route path='/open' element={  }/> */}
       </Routes>
 
-    </HashRouter>
+    </BrowserRouter>
   )
 }
 
