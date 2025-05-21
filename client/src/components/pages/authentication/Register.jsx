@@ -135,7 +135,7 @@ const Register = () => {
                 />
                 <label
                   htmlFor="fullName"
-                  className="absolute left-4 top-3 text-gray-400 transition-all duration-300 
+                  className="absolute left-4 top-3  text-white transition-all duration-300 
                   transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 
                   peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-500"
                 >
@@ -160,7 +160,7 @@ const Register = () => {
                 />
                 <label
                   htmlFor="email"
-                  className="absolute left-4 top-3 text-gray-400 transition-all duration-300 
+                  className="absolute left-4 top-3  text-white transition-all duration-300 
                   transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 
                   peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-500"
                 >
@@ -185,7 +185,7 @@ const Register = () => {
                 />
                 <label
                   htmlFor="password"
-                  className="absolute left-4 top-3 text-gray-400 transition-all duration-300 
+                  className="absolute left-4 top-3  text-white transition-all duration-300 
                   transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 
                   peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-500"
                 >
@@ -214,7 +214,7 @@ const Register = () => {
                 />
                 <label
                   htmlFor="confirmPassword"
-                  className="absolute left-4 top-3 text-gray-400 transition-all duration-300 
+                  className="absolute left-4 top-3  text-white transition-all duration-300 
                   transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 
                   peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-500"
                 >
@@ -240,7 +240,7 @@ const Register = () => {
                   onChange={(e) => setAgreeToTerms(e.target.checked)}
                   required
                 />
-                <label htmlFor="terms" className="ml-2 text-sm text-gray-300">
+                <label htmlFor="terms" className="ml-2 text-sm text-white">
                   I agree to the <a href="#" className="text-blue-400 hover:text-blue-600">Terms of Service</a> and <a href="#" className="text-blue-400 hover:text-blue-600">Privacy Policy</a>
                 </label>
               </div>
