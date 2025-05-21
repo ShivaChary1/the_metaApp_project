@@ -178,10 +178,11 @@ const io = new Server(server, {
   cors: {
     origin: function (origin, callback) {
       const allowedOrigins = [
-        'http://localhost:5173',
-        'http://127.0.0.1:5173',
-        'http://192.168.1.6:5173',
-        'http://192.168.1.5:5173',
+        // 'http://localhost:5173',
+        // 'http://127.0.0.1:5173',
+        // 'http://192.168.1.6:5173',
+        // 'http://192.168.1.5:5173',
+        'https://metaconnect.onrender.com/'
       ];
       if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://192.168.')) {
         callback(null, true);
@@ -199,10 +200,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({
   origin: function (origin, callback) {
     const allowedOrigins = [
-      'http://localhost:5173',
-        'http://127.0.0.1:5173',
-        'http://192.168.1.6:5173',
-        'http://192.168.1.5:5173',
+      // 'http://localhost:5173',
+      //   'http://127.0.0.1:5173',
+      //   'http://192.168.1.6:5173',
+      //   'http://192.168.1.5:5173',
+      'https://metaconnect.onrender.com/'
     ];
     if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://192.168.')) {
       callback(null, true);
