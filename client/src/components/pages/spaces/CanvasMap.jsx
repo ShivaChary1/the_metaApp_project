@@ -150,6 +150,23 @@ const CanvasMap = ({ socket, spaceId, currentUsers }) => {
     container.addEventListener('wheel', handleWheel, { passive: false });
     return () => container.removeEventListener('wheel', handleWheel);
   }, []);
+  
+  useEffect(() => {
+  const container = containerRef.current;
+  const localPos = positions[localUserId];
+  if (!container || !localPos) return;
+
+  const centerViewOnAvatar = () => {
+    setView((v) => ({
+      ...v,
+      offsetX: container.clientWidth / 2 - localPos.x * v.scale,
+      offsetY: container.clientHeight / 2 - localPos.y * v.scale,
+    }));
+  };
+
+  centerViewOnAvatar();
+}, [positions[localUserId]]);
+
 
   const handleMouseDown = (e) => {
     setIsDragging(true);

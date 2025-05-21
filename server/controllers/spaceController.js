@@ -316,3 +316,61 @@ exports.updateSpace = async (req, res) => {
     return res.status(500).json({ error: 'Server error' });
   }
 };
+
+exports.leaveSpace = async (req, res) => {
+  try {
+    const { spaceId, userId } = req.body;
+
+    // Validate input
+    if (!spaceId || !userId) {
+      return res.status(400).json({ error: 'spaceId and userId are required' });
+    }
+
+    // Find the space
+    const space = await VirtualSpace.findById(spaceId);
+    if (!space) {
+      return res.status(404).json({ error: 'Space not found' });
+    }
+
+    // Check if user is in the space
+    const userIndex = space.currentUsers.findIndex(
+      (entry) => entry.user.toString() === userId
+    );
+    if (userIndex === -1) {
+      return res.status(400).json({ error: 'User is not in this space' });
+    }
+
+    // Remove user from space's currentUsers
+    space.currentUsers.splice(userIndex, 1);
+
+    // Save the updated space
+    await space.save();
+
+    // Update the User document
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Remove space from user's joinedSpaces or createdSpaces
+    if (space.owner.toString() === userId) {
+      // If user is the owner, remove from createdSpaces
+      user.createdSpaces = user.createdSpaces.filter(
+        (id) => id.toString() !== spaceId
+      );
+    } else {
+      // If user is a participant, remove from joinedSpaces
+      user.joinedSpaces = user.joinedSpaces.filter(
+        (id) => id.toString() !== spaceId
+      );
+    }
+
+    // Save the updated user
+    await user.save();
+
+    return res.status(200).json({ message: 'Successfully left the space' });
+  } catch (err) {
+    console.error('Error in leaveSpace:', err);
+    return res.status(500).json({ error: 'An error occurred while leaving the space', details: err.message });
+  }
+};

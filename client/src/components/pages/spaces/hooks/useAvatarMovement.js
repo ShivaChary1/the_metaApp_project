@@ -37,7 +37,7 @@ const useAvatarMovement = (socket, spaceId, currentUsers, boundingBox) => {
         const dy = pos.y - localPos.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         newDistances[userId] = distance;
-        if (distance < 30) {
+        if (distance < 100) {
           newNearbyUsers.push(userId);
         }
       }

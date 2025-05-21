@@ -28,19 +28,11 @@ const OfficeMap = ({ isChatbarVisible, toggleChatbar, isSmallScreen, spaceId, cu
 
   return (
     <div
-      className={`relative bg-white ${
-        isSmallScreen
-          ? isChatbarVisible
-            ? 'w-0 hidden'
-            : 'w-full'
-          : isChatbarVisible
-          ? 'w-full md:w-[70%]'
-          : 'w-full'
-      } h-full transition-all duration-300 overflow-hidden`}
+      className={`relative bg-gray-900/80 ${isSmallScreen ? isChatbarVisible ? 'w-0 hidden': 'w-full': isChatbarVisible? 'w-full md:w-[70%]': 'w-full'} h-full transition-all duration-300 overflow-hidden`}
     >
       <button
         onClick={handleLeaveRoom}
-        className="fixed bottom-4 left-4 cursor-pointer z-20 p-2 sm:p-3 bg-red-500 hover:bg-blue-600 focus:ring-2 focus:ring-red-400 text-white rounded-full shadow-lg flex items-center justify-center transition-colors duration-200 sm:gap-2 text-sm sm:text-base pointer-events-auto"
+        className="fixed bottom-4 left-4 cursor-pointer z-20 p-2 sm:p-3 bg-red-500 focus:ring-2 focus:ring-red-400 text-white rounded-full shadow-lg flex items-center justify-center transition-colors duration-200 sm:gap-2 text-sm sm:text-base pointer-events-auto"
         aria-label="Exit space"
       >
         <i className="fas fa-sign-out-alt sm:mr-1"></i>
@@ -48,8 +40,8 @@ const OfficeMap = ({ isChatbarVisible, toggleChatbar, isSmallScreen, spaceId, cu
       </button>
 
       <div
-        className={`mx-auto mt-4 border border-gray-300 bg-gray-100 transition-all duration-300 ${
-          isChatbarVisible ? 'w-[90%] h-[90%]' : 'w-full h-full'
+        className={`mx-auto border border-gray-300 bg-gray-100 transition-all duration-300 ${
+          isChatbarVisible ? 'mt-4 w-[95%] h-[95%]' : 'w-full h-full'
         }`}
         style={{ position: 'relative' }}
       >
@@ -60,7 +52,7 @@ const OfficeMap = ({ isChatbarVisible, toggleChatbar, isSmallScreen, spaceId, cu
         />
       </div>
       {isSmallScreen && (
-        <div className="absolute inset-0 bg-white/10 backdrop-blur-[8px] border border-white/20 flex items-center justify-center pointer-events-none">
+        <div className="absolute inset-0 bg-white/10 backdrop-blur-[8px] border z-50 border-white/20 flex items-center justify-center pointer-events-none">
           <p className="text-gray-600 text-3xl md:text-base font-medium text-center px-4">
             Use larger screen devices for best experience.
           </p>

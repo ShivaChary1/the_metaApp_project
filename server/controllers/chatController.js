@@ -3,7 +3,7 @@ const Chat = require('../models/Chat');
 exports.getChats = async (req, res) => {
   const { spaceId } = req.query;
   try {
-    const chatDoc = await Chat.findOne({ spaceId }).populate('chats.user', 'fullName');
+    const chatDoc = await Chat.findOne({ spaceId }).populate('chats.user', 'fullName').populate('spaceId');
     res.status(200).json({ chats: chatDoc || { chats: [] } });
   } catch (error) {
     console.error('Error fetching chats:', error);

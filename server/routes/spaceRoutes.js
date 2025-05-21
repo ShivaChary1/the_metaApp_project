@@ -15,5 +15,6 @@ router.post('/join', auth, spaceController.joinSpace);
 router.get('/allspaces', auth, spaceController.getAllSpaces);
 router.get('/getspace', auth, spaceController.getSpace);
 router.post('/updatespace', auth, spaceController.updateSpace);
+router.post('/leavespace',auth,spaceController.leaveSpace);
 
 module.exports = router;
