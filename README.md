@@ -43,7 +43,7 @@ Each user is represented by a unique avatar and can interact via text, voice, an
 - **Frontend:** React.js (JavaScript)
 - **Backend:** Node.js with Express
 - **Real-Time Communication:** WebSockets using Socket.io
-- **Voice/Video Calls:** WebRTC integration
+- **Voice/Video Calls:** ZegoCloud / WebRTC integration
 - **Other Tools/Libraries:**  
   Refer to [`package.json`](./package.json) for the full list of dependencies.
 
