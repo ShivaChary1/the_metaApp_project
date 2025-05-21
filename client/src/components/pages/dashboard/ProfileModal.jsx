@@ -129,7 +129,7 @@ const ProfileModal = ({ isOpen, setIsOpen, currUser = { name: '', email: '' } })
             />
             <label
               htmlFor="fullName"
-              className="absolute left-4 top-3 text-gray-400 transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-500"
+              className="absolute left-4 top-3  text-white transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-500"
             >
               Full Name
             </label>
@@ -147,7 +147,7 @@ const ProfileModal = ({ isOpen, setIsOpen, currUser = { name: '', email: '' } })
             />
             <label
               htmlFor="email"
-              className="absolute left-4 top-3 text-gray-500 transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-500"
+              className="absolute left-4 top-3  text-white transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-500"
             >
               Email
             </label>
@@ -165,7 +165,7 @@ const ProfileModal = ({ isOpen, setIsOpen, currUser = { name: '', email: '' } })
             />
             <label
               htmlFor="password"
-              className="absolute left-4 top-3 text-gray-400 transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-500"
+              className="absolute left-4 top-3  text-white transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-500"
             >
               New Password (optional)
             </label>
@@ -183,7 +183,7 @@ const ProfileModal = ({ isOpen, setIsOpen, currUser = { name: '', email: '' } })
             />
             <label
               htmlFor="confirmPassword"
-              className="absolute left-4 top-3 text-gray-400 transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-500"
+              className="absolute left-4 top-3  text-white transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-500"
             >
               Confirm Password
             </label>
