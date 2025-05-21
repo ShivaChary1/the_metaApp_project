@@ -1,4 +1,4 @@
-# 🪐 the_metaApp_project
+# 🪐 MetaConnect
 
 **A metaverse application enabling real-time communication within a collaborative, virtual office environment.**  
 Each user is represented by a unique avatar and can interact via text, voice, and video while navigating an immersive 2D workspace.
