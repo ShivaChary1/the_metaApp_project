@@ -6,24 +6,24 @@ import Register from './components/pages/authentication/Register'
 import Dashboard from './components/pages/dashboard/Dashboard'
 import './App.css'
 import Spaceboard from './components/pages/spaces/SpaceBoard'
-import Canvas from './components/utils/Canvas'
 import { getSocket,connectSocket } from './components/utils/socket'
 import ProtectedRoute from './components/utils/ProtectedRoute'
+
 
 
 const App = () => {
   let socket;
 
-  useEffect(()=>{
+  useEffect(() => {
     const token = localStorage.getItem('token');
-    const spaceId = localStorage.getItem('spaceId'); 
+    const spaceId = localStorage.getItem('spaceId');
+    // socket setup if user is authenticated and in a space
     if (token && spaceId) {
       connectSocket();
       socket = getSocket();
       socket.emit('enteredSpace', { spaceId });
     }
-  },[])
-
+  }, []);
 
 
   return (

@@ -195,6 +195,7 @@ import React, { useState, useEffect } from 'react';
 import DashboardHeader from './DashboardHeader';
 import MySpaces from './MySpaces';
 import JoinedSpaces from './JoinedSpaces';
+import {jwtDecode} from 'jwt-decode'
 import ProfileModal from './ProfileModal';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -210,6 +211,37 @@ const Dashboard = () => {
   const [hasLoaded, setHasLoaded] = useState(false);
 
   const currUser = JSON.parse(localStorage.getItem('currUser'));
+  useEffect(()=>{
+    const token = localStorage.getItem('token')
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        const currentTime = Date.now() / 1000; // current time in seconds
+
+        if (decoded.exp < currentTime) {
+          handleLogout();
+        } else {
+          // Optional: auto logout when token expires
+          const timeUntilExpiry = (decoded.exp * 1000) - Date.now();
+          setTimeout(() => {
+            handleLogout();
+          }, timeUntilExpiry);
+        }
+      } catch (err) {
+        console.error('Invalid token',err);
+        handleLogout();
+      }
+    }
+
+
+    const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('spaceId');
+    navigate('/login')// if you prefer
+    };
+
+
+  },[])
 
   const fetchSpaces = async (retries = 3) => {
     if (!currUser?.userId) {
