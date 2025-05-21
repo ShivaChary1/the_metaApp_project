@@ -90,4 +90,4 @@ See the [LICENSE](./LICENSE) file for more information.
 
 ---
 
--built with ❤️ by [Shiva Chary](https://www.linkedin.com/in/shiva-chary-guddoju-867b93290/)
+- built with ❤️ by [Shiva Chary](https://www.linkedin.com/in/shiva-chary-guddoju-867b93290/)
