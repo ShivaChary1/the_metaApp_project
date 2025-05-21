@@ -178,7 +178,7 @@ const io = new Server(server, {
   cors: {
     origin: function (origin, callback) {
       const allowedOrigins = [
-        'https://metaconnect.onrender.com/',
+        'https://metaconnect.onrender.com',
         ' * ',
       'https://metaconnect.onrender.com'
       ];
@@ -198,7 +198,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({
   origin: function (origin, callback) {
     const allowedOrigins = [
-      'https://metaconnect.onrender.com/',
+      'https://metaconnect.onrender.com',
       ' * '
     ];
     if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://192.168.')) {
