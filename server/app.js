@@ -182,7 +182,7 @@ const io = new Server(server, {
         // 'http://127.0.0.1:5173',
         // 'http://192.168.1.6:5173',
         // 'http://192.168.1.5:5173',
-        'https://metaconnect.onrender.com/'
+        'https://metaconnect.onrender.com/','*'
       ];
       if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://192.168.')) {
         callback(null, true);
@@ -204,7 +204,8 @@ app.use(cors({
       //   'http://127.0.0.1:5173',
       //   'http://192.168.1.6:5173',
       //   'http://192.168.1.5:5173',
-      'https://metaconnect.onrender.com/'
+      'https://metaconnect.onrender.com/',
+      '*'
     ];
     if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://192.168.')) {
       callback(null, true);
